@@ -4,15 +4,24 @@ MIN_PLAYERS = 2
 Meteor.publish 'rounds', ->
     # only the latest
     Rounds.find {},
-        sort: started: -1
+        sort: startTime: -1
         limit: 1
 
 Meteor.publish 'plays', ->
     Plays.find user: @userId
 
+Meteor.methods
+    play: (choice) ->
+        round = Rounds.findOne {},
+            sort: startTime: -1
+        Plays.upsert user: Meteor.userId(), round: round._id,
+            user: Meteor.userId()
+            round: round._id
+            choice: choice
+
 checkRoundEnded = ->
     round = Rounds.findOne {},
-        sort: started: -1
+        sort: startTime: -1
 
     unless round?
         return newRound()
@@ -31,9 +40,9 @@ newRound = ->
     startTime = moment()
     endTime = startTime.clone().add ROUND_LENGTH, 'seconds'
     last = Rounds.findOne {},
-        sort: started: -1
+        sort: startTime: -1
     if last?
-        id = last._id + 1
+        id = Number(last._id) + 1
     else
         id = 1
     _id = id.toString()
