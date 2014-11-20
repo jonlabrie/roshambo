@@ -1,0 +1,12 @@
+template(name="login")
+    section#login-form
+        if message
+            p#login-message= message
+        input#login-user(placeholder="username")
+        input#login-pass(type="password" placeholder="password")
+        if stateIs 'register'
+            input#login-pass2(type="password" placeholder="confirm password")
+            input#login-email(type="email" placeholder="email")
+        if stateIs 'fail'
+            button#login-reset Reset forgotten password
+        button#login-button= buttonText

@@ -6,5 +6,8 @@ head
     link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
 
 body
-    +stats
-    +currentGame
+    if currentUser
+        +stats
+        +currentGame
+    else
+        +login
