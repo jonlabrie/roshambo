@@ -10,6 +10,12 @@ Meteor.publish 'rounds', ->
 Meteor.publish 'plays', ->
     Plays.find user: @userId
 
+Meteor.publish 'user-stats', ->
+    Meteor.users.find @userId,
+        fields:
+            pointsTotal: 1
+            streak: 1
+
 Meteor.methods
     play: (choice) ->
         round = Rounds.findOne {},
@@ -18,6 +24,12 @@ Meteor.methods
             user: Meteor.userId()
             round: round._id
             choice: choice
+
+    cash: ->
+        streak = Meteor.user().streak ? 0
+        Meteor.users.update Meteor.userId(),
+            $set: streak: 0
+            $inc: pointsTotal: streakPoints streak
 
 checkRoundEnded = ->
     round = Rounds.findOne {},
@@ -72,6 +84,10 @@ updateWins = (round, draw, win, loss) ->
     Plays.update round: round._id, choice: loss,
         $set: result: 'loss'
     , multi: true
+    Plays.find(round: round._id, choice: loss).forEach (play) ->
+        Meteor.users.update play.user, $set: streak: 0
+    Plays.find(round: round._id, choice: win).forEach (play) ->
+        Meteor.users.update play.user, $inc: streak: 1
 
 newRound = ->
     startTime = moment()

@@ -7,6 +7,11 @@ Template.stats.helpers
             sort: round: -1
             limit: 5
 
+    streak: ->
+        streak = Meteor.user().streak ? 0
+        rounds: streak
+        points: streakPoints streak
+
     currentRound: ->
         Rounds.findOne()
 
@@ -18,5 +23,13 @@ Template.stats.helpers
         clockDep.depend()
         offset = Math.round (@endTime - new Date()) / 1000
         min = Math.floor offset / 60
+        if min < 10
+            min = '0' + min
         sec = offset % 60
+        if sec < 10
+            sec = '0' + sec
         "#{min}:#{sec}"
+
+Template.stats.events
+    'click #cash-streak': ->
+        Meteor.call 'cash'

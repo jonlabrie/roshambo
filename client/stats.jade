@@ -1,9 +1,16 @@
 template(name="stats")
     section#stats
-        p Your score: #{pointsTotal}
+        p Your score: #{pointsTotal} points
         p Last rounds:
             each recentRounds
                 span.round-results= result
+        with streak
+            p
+                | Winning streak:&nbsp;
+                = rounds
+                if rounds
+                    | (#{points} points)
+                    button#cash-streak Redeem
         with currentRound
             h2 Current round
             p round #{_id}
