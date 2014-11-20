@@ -1,5 +1,5 @@
 ROUND_LENGTH = 60 # seconds
-MIN_PLAYERS = 2
+MIN_PLAYERS = 3
 
 Meteor.publish 'rounds', ->
     # only the latest
@@ -33,8 +33,45 @@ checkRoundEnded = ->
         Meteor.setTimeout checkRoundEnded, 1000
 
 endRound = ->
-    console.log 'process round'
+    round = Rounds.findOne {},
+        sort: startTime: -1
+
+    console.log "Ending round #{round._id}"
+
+    # starting the next one first is the easiest way to prevent players from
+    # changing their throw while we're processing
     newRound()
+
+    Rounds.update round._id, $set: endTime: new Date()
+    counts =
+        rock: Plays.find(round: round._id, choice: 'rock').count()
+        paper: Plays.find(round: round._id, choice: 'paper').count()
+        scissors: Plays.find(round: round._id, choice: 'scissors').count()
+
+    switch
+        when counts.rock > counts.paper and counts.rock > counts.scissors
+            updateWins round, 'rock', 'paper', 'scissors'
+        when counts.paper > counts.rock and counts.paper > counts.scissors
+            updateWins round, 'paper', 'scissors', 'rock'
+        when counts.scissors > counts.paper and counts.scissors > counts.rock
+            updateWins round, 'scissors', 'rock', 'paper'
+        else
+            # What to do in case of draw? I just set all players to draw,
+            # but maybe we can think of something cooler
+            Plays.update round: round._id,
+                $set: result: 'draw'
+            , multi: true
+
+updateWins = (round, draw, win, loss) ->
+    Plays.update round: round._id, choice: draw,
+        $set: result: 'draw'
+    , multi: true
+    Plays.update round: round._id, choice: win,
+        $set: result: 'win'
+    , multi: true
+    Plays.update round: round._id, choice: loss,
+        $set: result: 'loss'
+    , multi: true
 
 newRound = ->
     startTime = moment()
