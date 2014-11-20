@@ -1,0 +1,15 @@
+node_modules
+node_modules/*
+.settings
+.c9revisions
+npm-debug.log
+.meteor/local
+.meteor/.gitignore
+packages/*
+packages/*/.npm
+packages/utils/*.coffee.js
+packages/*/.build*
+.gitignore
+.DS_Store
+.meteor/test-db/*
+.zedstate
