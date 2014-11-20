@@ -1,4 +1,12 @@
 Template.stats.helpers
+    pointsTotal: ->
+        Meteor.user().pointsTotal ? 0
+
+    recentRounds: ->
+        Plays.find result: $exists: true,
+            sort: round: -1
+            limit: 5
+
     currentRound: ->
         Rounds.findOne()
 

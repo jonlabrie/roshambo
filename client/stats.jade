@@ -1,8 +1,13 @@
 template(name="stats")
-    with currentRound
-        h2 Current round
-        p round #{_id}
-        if overdue
-            p waiting for enough plays
-        else
-            p ending in #{remainingTime}
+    section#stats
+        p Your score: #{pointsTotal}
+        p Last rounds:
+            each recentRounds
+                span.round-results= result
+        with currentRound
+            h2 Current round
+            p round #{_id}
+            if overdue
+                p waiting for enough plays
+            else
+                p ending in #{remainingTime}

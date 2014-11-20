@@ -34,6 +34,13 @@ input.error
     #login-reset
         button red large
 
+#stats
+    .round-results
+        &:after
+            content: ', '
+        &:last-child:after
+            content: none
+
 #currentGame
     .button
         col(1/3)
