@@ -1,2 +1,8 @@
 template(name="stats")
-    p stats
+    with currentRound
+        h2 Current round
+        p round #{_id}
+        if overdue
+            p waiting for enough plays
+        else
+            p ending in #{remainingTime}
