@@ -26,4 +26,5 @@ Template.currentGame.helpers
 Template.currentGame.events
     'click .button': (event, ti) ->
         unless @choice?
-            Meteor.call 'play', event.currentTarget.id
+            if confirm 'Your choice can\'t be changed once entered. Are you sure?'
+                Meteor.call 'play', event.currentTarget.id
