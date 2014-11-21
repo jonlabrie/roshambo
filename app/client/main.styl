@@ -24,6 +24,22 @@ input.error
 #topbar
     background-color #ccc
     padding 3px 5px
+    display table
+    width 100%
+
+    #login-buttons
+    #connection-status
+        display table-cell
+
+    #connection-status
+        text-align right
+
+        &.connected
+            color green
+        &.waiting
+            color red
+        &.failed
+            color darkgrey
 
 #splash
     #splash-login
