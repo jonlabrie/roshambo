@@ -6,3 +6,4 @@ packages/*/.build*
 .DS_Store
 .meteor/test-db/*
 .zedstate
+build
