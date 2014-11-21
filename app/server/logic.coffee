@@ -20,7 +20,9 @@ Meteor.methods
     play: (choice) ->
         round = Rounds.findOne {},
             sort: startTime: -1
-        Plays.upsert user: Meteor.userId(), round: round._id,
+        if Plays.find(user: Meteor.userId(), round: round._id).count()
+            throw new Meteor.Error 403, 'Already played this round'
+        Plays.insert
             user: Meteor.userId()
             round: round._id
             choice: choice

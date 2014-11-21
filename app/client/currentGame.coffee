@@ -8,15 +8,22 @@ Template.currentGame.helpers
     rockClass: ->
         if @choice is 'rock'
             'selected'
+        else if @choice?
+            'not-selected'
 
     paperClass: ->
         if @choice is 'paper'
             'selected'
+        else if @choice?
+            'not-selected'
 
     scissorsClass: ->
         if @choice is 'scissors'
             'selected'
+        else if @choice?
+            'not-selected'
 
 Template.currentGame.events
     'click .button': (event, ti) ->
-        Meteor.call 'play', event.currentTarget.id
+        unless @choice?
+            Meteor.call 'play', event.currentTarget.id
