@@ -27,7 +27,7 @@ Meteor.methods
             round: round._id
             choice: choice
 
-    cash: ->
+    redeem: ->
         streak = Meteor.user().streak ? 0
         Meteor.users.update Meteor.userId(),
             $set: streak: 0

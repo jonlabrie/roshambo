@@ -12,6 +12,9 @@ Template.stats.helpers
         rounds: streak
         points: streakPoints streak
 
+    showStreakButtons: ->
+        @rounds and not Session.get 'streak-risk-ok'
+
     currentRound: ->
         Rounds.findOne()
 
@@ -31,5 +34,8 @@ Template.stats.helpers
         "#{min}:#{sec}"
 
 Template.stats.events
-    'click #cash-streak': ->
-        Meteor.call 'cash'
+    'click #redeem-streak': ->
+        Meteor.call 'redeem'
+
+    'click #risk-streak': ->
+        Session.set 'streak-risk-ok', true

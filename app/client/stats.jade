@@ -8,9 +8,10 @@ template(name="stats")
             p
                 | Winning streak:&nbsp;
                 = rounds
-                if rounds
+                if showStreakButtons
                     | (#{points} points)
-                    button#cash-streak Redeem
+                    button#redeem-streak Redeem
+                    button#risk-streak Risk
         with currentRound
             h2 Current round
             p round #{_id}
