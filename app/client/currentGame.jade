@@ -1,6 +1,9 @@
 template(name="currentGame")
     with myPlay
         section#currentGame
-            span.button#rock(class=rockClass) ˚
-            span.button#paper(class=paperClass) ˉ
-            span.button#scissors(class=scissorsClass) ^
+            +playButton 'rock'
+            +playButton 'paper'
+            +playButton 'scissors'
+
+template(name="playButton")
+    span.button(id=this class=buttonClass)= text

@@ -12,29 +12,41 @@ Template.currentGame.helpers
             else
                 null
 
-    # so much for DRY :-/ the current version of jade-meteor doesn't allow
-    # passing arguments in helpers called inside attributes
-    rockClass: ->
-        if @choice is 'rock'
-            'selected'
-        else if @choice?
-            'not-selected'
+Template.playButton.helpers
+    buttonClass: ->
+        play = Template.parentData 1
+        button = @toString()
+        switch
+            when button is Session.get 'pending-choice'
+                'confirm-selection'
+            when play.choice is button
+                'selected'
+            when play.choice?
+                'not-selected'
 
-    paperClass: ->
-        if @choice is 'paper'
-            'selected'
-        else if @choice?
-            'not-selected'
-
-    scissorsClass: ->
-        if @choice is 'scissors'
-            'selected'
-        else if @choice?
-            'not-selected'
+    text: ->
+        button = @toString()
+        if button is Session.get 'pending-choice'
+            'Confirm?'
+        else
+            switch button
+                when 'rock'
+                    '˚'
+                when 'paper'
+                    'ˉ'
+                when 'scissors'
+                    '^'
 
 Template.currentGame.events
     'click .button': (event, ti) ->
-        unless @choice?
-            if confirm 'Your choice can\'t be changed once entered. Are you sure?'
-                Meteor.call 'play', event.currentTarget.id
-            Session.set 'streak-risk-ok', null
+        choice = event.currentTarget.id
+        switch
+            when @choice?
+                # player already played this turn: do nothing
+                false
+            when choice is Session.get 'pending-choice'
+                Meteor.call 'play', choice
+                Session.set 'streak-risk-ok', null
+                Session.set 'pending-choice', null
+            else
+                Session.set 'pending-choice', choice

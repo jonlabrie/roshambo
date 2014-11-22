@@ -20,7 +20,7 @@ Template.stats.helpers
         points: streakPoints streak
 
     showStreakButtons: ->
-        @rounds and not Session.get 'streak-risk-ok'
+        @rounds and (not Plays.findOne(round: Rounds.current()?._id)?) and not Session.get 'streak-risk-ok'
 
     currentRound: ->
         Rounds.current()
