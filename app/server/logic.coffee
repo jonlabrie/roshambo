@@ -11,11 +11,17 @@ Meteor.publish 'plays', ->
     Plays.find user: @userId
 
 Meteor.publish 'user-stats', ->
+    Meteor.users.find @userId,
+        fields:
+            pointsTotal: 1
+            streak: 1
+
+Meteor.publish 'ranking', ->
     Meteor.users.find {},
         fields:
             username: 1
             pointsTotal: 1
-            streak: 1
+            longestStreak: 1
 
 Meteor.methods
     play: (choice) ->
@@ -29,9 +35,13 @@ Meteor.methods
             choice: choice
 
     redeem: ->
-        streak = Meteor.user().streak ? 0
+        current = Meteor.user()
+        streak = current.streak ? 0
+        update = streak: 0
+        if streak > (current.longestStreak ? 0)
+            update.longestStreak = streak
         Meteor.users.update Meteor.userId(),
-            $set: streak: 0
+            $set: update
             $inc: pointsTotal: streakPoints streak
 
 checkRoundEnded = ->

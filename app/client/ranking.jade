@@ -9,3 +9,12 @@ template(name="ranking")
                 tr
                     td.username= username
                     td.score= pointsTotal
+
+        table
+            tr
+                th Player
+                th.score Longest streak
+            each topStreaks
+                tr
+                    td.username= username
+                    td.score= longestStreak
