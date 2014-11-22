@@ -1,6 +1,6 @@
 Template.currentGame.helpers
     myPlay: ->
-        round = Rounds.findOne()
+        round = Rounds.current()
         play = Plays.findOne(round: round?._id)
         switch
             when play?

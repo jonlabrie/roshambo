@@ -1,9 +1,9 @@
 template(name="stats")
     section#stats
         p Your score: #{pointsTotal} points
-        p Last rounds:
+        p Last five world throws:
             each recentRounds
-                span.round-results= result
+                span.round-results= majorityGlyph
         with streak
             p
                 | Winning streak:&nbsp;

@@ -5,7 +5,7 @@ Meteor.publish 'rounds', ->
     # only the latest
     Rounds.find {},
         sort: startTime: -1
-        limit: 1
+        limit: 5
 
 Meteor.publish 'plays', ->
     Plays.find user: @userId
@@ -65,7 +65,9 @@ endRound = (round, draw, win, loss) ->
 
     newRound()
 
-    Rounds.update round._id, $set: endTime: new Date()
+    Rounds.update round._id, $set:
+        endTime: new Date()
+        majority: draw
 
     Plays.update round: round._id, choice: draw,
         $set: result: 'draw'

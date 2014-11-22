@@ -3,9 +3,16 @@ Template.stats.helpers
         Meteor.user().pointsTotal ? 0
 
     recentRounds: ->
-        Plays.find result: $exists: true,
-            sort: round: -1
-            limit: 5
+        Rounds.find {}, sort: startTime: -1
+
+    majorityGlyph: ->
+        switch @majority
+            when 'rock'
+                '˚'
+            when 'paper'
+                'ˉ'
+            when 'scissors'
+                '^'
 
     streak: ->
         streak = Meteor.user().streak ? 0
@@ -16,7 +23,7 @@ Template.stats.helpers
         @rounds and not Session.get 'streak-risk-ok'
 
     currentRound: ->
-        Rounds.findOne()
+        Rounds.current()
 
     overdue: ->
         clockDep.depend()
