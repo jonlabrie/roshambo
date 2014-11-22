@@ -40,8 +40,9 @@ Template.playButton.helpers
 Template.currentGame.events
     'click .button': (event, ti) ->
         choice = event.currentTarget.id
+        play = Template.parentData 1
         switch
-            when @choice?
+            when play.choice?
                 # player already played this turn: do nothing
                 false
             when choice is Session.get 'pending-choice'
