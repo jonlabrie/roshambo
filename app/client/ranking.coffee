@@ -11,6 +11,9 @@ Template.ranking.helpers
             sort: longestStreak: -1
             limit: 10
 
+    formatScore: ->
+        numeral(@pointsTotal).format()
+
 Template.ranking.events
     'click #ranking': ->
         Session.set 'show-ranking', null

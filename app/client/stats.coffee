@@ -1,6 +1,6 @@
 Template.stats.helpers
     pointsTotal: ->
-        Meteor.user().pointsTotal ? 0
+        numeral(Meteor.user().pointsTotal ? 0).format()
 
     showRanking: ->
         Session.get 'show-ranking'
@@ -34,19 +34,12 @@ Template.stats.helpers
 
     remainingTime: ->
         clockDep.depend()
-        offset = Math.round (@endTime - new Date()) / 1000
-        min = Math.floor offset / 60
-        if min < 10
-            min = '0' + min
-        sec = offset % 60
-        if sec < 10
-            sec = '0' + sec
-        "#{min}:#{sec}"
+        numeral(Math.round (@endTime - new Date()) / 1000).format('00:00')
 
 Template.stats.events
     'click #show-ranking': ->
         Session.set 'show-ranking', true
-        
+
     'click #redeem-streak': ->
         Meteor.call 'redeem'
 
