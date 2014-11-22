@@ -1,0 +1,11 @@
+template(name="ranking")
+    #ranking
+        h2 Ranking
+        table
+            tr
+                th Player
+                th.score Score
+            each topScores
+                tr
+                    td.username= username
+                    td.score= pointsTotal

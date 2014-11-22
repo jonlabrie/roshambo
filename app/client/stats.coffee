@@ -2,6 +2,9 @@ Template.stats.helpers
     pointsTotal: ->
         Meteor.user().pointsTotal ? 0
 
+    showRanking: ->
+        Session.get 'show-ranking'
+
     recentRounds: ->
         Rounds.find {}, sort: startTime: -1
 
@@ -41,6 +44,9 @@ Template.stats.helpers
         "#{min}:#{sec}"
 
 Template.stats.events
+    'click #show-ranking': ->
+        Session.set 'show-ranking', true
+        
     'click #redeem-streak': ->
         Meteor.call 'redeem'
 

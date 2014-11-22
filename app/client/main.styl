@@ -21,6 +21,11 @@ section
 input.error
     background-color pink
 
+a.pseudo-link
+    color blue
+    text-decoration underline
+    cursor pointer
+
 #topbar
     background-color #ccc
     padding 3px 5px
@@ -79,3 +84,25 @@ input.error
             font-size 10vw
             height 10vw
             cursor wait
+
+#ranking
+    area()
+
+    h2
+        margin-top 0
+
+    table
+        min-width 30%
+
+    th
+        text-align left
+
+    th
+    td
+        padding 3px 5px
+
+    tr:nth-child(even)
+        background-color #ddd
+
+    .score
+        text-align right

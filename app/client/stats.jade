@@ -1,6 +1,10 @@
 template(name="stats")
     section#stats
         p Your score: #{pointsTotal} points
+            unless showRanking
+                a.pseudo-link#show-ranking (ranking)
+        if showRanking
+            +ranking
         p Last five world throws:
             each recentRounds
                 span.round-results= majorityGlyph

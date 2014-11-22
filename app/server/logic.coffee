@@ -11,8 +11,9 @@ Meteor.publish 'plays', ->
     Plays.find user: @userId
 
 Meteor.publish 'user-stats', ->
-    Meteor.users.find @userId,
+    Meteor.users.find {},
         fields:
+            username: 1
             pointsTotal: 1
             streak: 1
 
