@@ -6,8 +6,11 @@ template(name="ranking")
                 th Player
                 th.score Score
             each topScores
-                tr
-                    td.username= username
+                tr(class=rowClass)
+                    td.username
+                        = username
+                        if rank
+                            | (##{rank})
                     td.score= formatScore
 
         table
@@ -15,6 +18,9 @@ template(name="ranking")
                 th Player
                 th.score Longest streak
             each topStreaks
-                tr
-                    td.username= username
+                tr(class=rowClass)
+                    td.username
+                        = username
+                        if rank
+                            | (##{rank})
                     td.score= longestStreak
