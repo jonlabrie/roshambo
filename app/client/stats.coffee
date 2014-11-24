@@ -25,6 +25,11 @@ Template.stats.helpers
     showStreakButtons: ->
         @rounds and (not Plays.findOne(round: Rounds.current()?._id)?) and not Session.get 'streak-risk-ok'
 
+    average: ->
+        total = Plays.find(result: $exists: true).count()
+        wins = Plays.find(result: 'win').count()
+        numeral(wins/total).format '00%'
+
     currentRound: ->
         Rounds.current()
 
@@ -34,7 +39,7 @@ Template.stats.helpers
 
     remainingTime: ->
         clockDep.depend()
-        numeral(Math.round (@endTime - new Date()) / 1000).format('00:00')
+        numeral(Math.round (@endTime - new Date()) / 1000).format '00:00'
 
 Template.stats.events
     'click #show-ranking': ->

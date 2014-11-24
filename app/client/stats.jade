@@ -16,6 +16,7 @@ template(name="stats")
                     | (#{points} points)
                     button#redeem-streak Redeem
                     button#risk-streak Risk
+        p Batting average: #{average}
         with currentRound
             h2 Current round
             p round #{_id}
